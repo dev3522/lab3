@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 int main()
-{
+{//
 	int pipe_descriptor[2];//0 - read 1 - write
 	int fork_result;
 	unsigned int symbol=0;
