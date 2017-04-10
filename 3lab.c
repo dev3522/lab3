@@ -26,15 +26,14 @@ int main()
 		read(pipe_descriptor[0], &symbol, sizeof(symbol));
 		symbol *= symbol;
 		printf("Child proc %d\n", symbol);
-		int c_id = 0;
-		const char name;
-		c_id = fork();
-		if(c_id < 0)
+                int proc_c_id = 0;
+                proc_c_id = fork();
+                if(proc_c_id < 0)
 		{ 
-			printf("c_id<0\n");
+                        printf("proc_c_id<0\n");
 			exit(EXIT_FAILURE);
 		}
-                if(c_id == 0)
+                if(proc_c_id == 0)
                 {
                     printf("Entered");
 		int segment_id;
@@ -45,8 +44,12 @@ int main()
                 if(segment_id == 0){
 
                 }
-                        }
+
+                else{
+                    printf("\nMemory created");
+                }
     }
+                }
    	else
 	{//parent process
         	close(pipe_descriptor[0]);
