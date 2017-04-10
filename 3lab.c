@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define SHM_def "Z"
 int main()
 {
 	int pipe_descriptor[2];//0 - read 1 - write
@@ -25,17 +26,23 @@ int main()
 		read(pipe_descriptor[0], &symbol, sizeof(symbol));
 		symbol *= symbol;
 		printf("Child proc %d\n", symbol);
-		int c_id=0;
+		int c_id = 0;
 		const char name;
 		c_id = fork();
-		if(c_id < 0) exit(EXIT_FAILURE);
+		if(c_id < 0)
+		{ 
+			printf("c_id<0\n");
+			exit(EXIT_FAILURE);
+		}
                 if(c_id == 0)
                 {
                     printf("Entered");
-		int shm_variable=0; 
-		shm_variable = shm_open(&name, O_CREAT, RWX);
-                printf("\nshm_variable = %i", shm_variable);
-                if(shm_variable == 0){
+		int segment_id;
+		int mode=0;
+		unsigned int key=0x55000;
+		segment_id = shmget(key, sizeof(int), O_CREAT);
+                printf("\nshm_variable = %i", segment_id);
+                if(segment_id == 0){
 
                 }
                         }
