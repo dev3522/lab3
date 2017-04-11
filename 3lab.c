@@ -1,3 +1,4 @@
+#include <errno.h>
 #include <unistd.h>
 #include <sys/wait.h>
 #include <sys/shm.h>
@@ -35,14 +36,21 @@ int main()
 		}
                 if(proc_c_id == 0)
                 {
-                    printf("Entered");
+                    printf("Entered\n");
+			key_t shmKEY;
+			shmKEY = 1111;//ftok(".", 'x');
+			printf("shmKEY = %i\n",shmKEY);
 		int segment_id;
-		int mode=0;
-		unsigned int key=0x55000;
-		segment_id = shmget(key, sizeof(int), O_CREAT);
-                printf("\nshm_variable = %i", segment_id);
-                if(segment_id == 0){
-
+		const char name = 120;
+		segment_id = shmget(shmKEY, sizeof(int), IPC_CREAT|0666);
+		printf("Errno=%d\n",errno);
+                printf("segment_id = %i\n", segment_id);
+                if(segment_id == -1){
+			printf("segment_id = -1\n");
+			exit(EXIT_FAILURE);
+		}
+		if(segment_id == 0){
+			printf("\nsegment_id = 0");
                 }
 
                 else{
